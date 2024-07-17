@@ -7,9 +7,12 @@
   "author": "",
   "license": "",
   "private": false,
+  "homepage": "https://thongminhtran.github.io/69ca73bd",
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -25,6 +28,7 @@
     "@babel/preset-react": "^7.24.7",
     "babel-loader": "8.1.0",
     "css-loader": "2.1.*",
+    "gh-pages": "^6.1.1",
     "html-loader": "0.5.*",
     "html-webpack-plugin": "3.2.*",
     "style-loader": "0.23.*",
