@@ -1,3 +1,4 @@
+// api.js
 const BASE_URL = 'https://aircall-backend.onrender.com';
 
 export const getActivities = async () => {
@@ -27,19 +28,19 @@ export const updateActivity = async (callId, isArchived) => {
             },
             body: JSON.stringify({ is_archived: isArchived }),
         });
-
+        const responseText = await response.text();
+        // console.log('Server response text:', responseText);
         if (!response.ok) {
-            const message = await response.text();  // Attempt to read the response text
-            throw new Error(`Failed to update activity: ${message}`);
+            throw new Error(`Failed to update activity: ${responseText}`);
         }
 
-        const data = await response.json();
-        return data;
+        // If the response is plain text, return an appropriate object
+        return { message: responseText };
     } catch (error) {
+        console.error('Error updating activity:', error);
         throw error;
     }
 };
-
 
 export const resetActivities = async () => {
     await fetch(`${BASE_URL}/reset`, {

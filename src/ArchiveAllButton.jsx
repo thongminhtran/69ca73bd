@@ -11,8 +11,6 @@ const ArchiveAllButton = ({ fetchActivities }) => {
         );
         fetchActivities();
     };
-
     return <Button variant="contained" color="primary" onClick={handleArchiveAll}>Archive All Calls</Button>;
 };
-
 export default ArchiveAllButton;

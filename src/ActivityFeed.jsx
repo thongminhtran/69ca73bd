@@ -5,8 +5,14 @@ import './css/app.css';
 
 const ActivityFeed = ({ activities, fetchActivities }) => {
     const handleArchive = async (id) => {
-        await updateActivity(id, true);
-        fetchActivities();
+        console.log(`Archiving activity with id: ${id}`);
+        try {
+            await updateActivity(id, true);
+            console.log(`Activity with id: ${id} archived successfully`);
+            fetchActivities();
+        } catch (error) {
+            console.error(`Failed to archive activity with id: ${id}`, error);
+        }
     };
 
     return (

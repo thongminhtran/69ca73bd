@@ -7,13 +7,11 @@ import './css/app.css';
 const UnarchiveAllButton = ({ fetchActivities }) => {
     const handleUnarchiveAll = async () => {
         const activities = await getActivities();
-
         await Promise.all(
             activities.map((activity) => updateActivity(activity.id, false))
         );
-        await fetchActivities();
+        fetchActivities();
     };
-
     return <Button variant="contained" color="secondary" onClick={handleUnarchiveAll}>Unarchive All Calls</Button>;
 };
 

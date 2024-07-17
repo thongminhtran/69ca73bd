@@ -10,22 +10,27 @@ import { Container, Box, Tabs, Tab, AppBar } from '@mui/material';
 import './css/app.css';
 import './css/body.css';
 import './css/header.css';
-import {getActivities} from "./api";
+import { getActivities } from "./api";
 
 const App = () => {
     const [tab, setTab] = useState(0);
     const [activities, setActivities] = useState([]);
-    const [lastUpdated, setLastUpdated] = useState(Date.now()); // Add this line
+    const [refreshKey, setRefreshKey] = useState(0);
 
     const fetchActivities = async () => {
-        const data = await getActivities();
-        setActivities(data);
-        setLastUpdated(Date.now());
+        try {
+            const data = await getActivities();
+            setActivities(data);
+            setRefreshKey(prevKey => prevKey + 1); // Update the refresh key to force re-render
+            console.log('Activities fetched successfully', data);
+        } catch (error) {
+            console.error("Failed to fetch activities:", error);
+        }
     };
 
     useEffect(() => {
         fetchActivities();
-    }, [lastUpdated]);
+    }, []);
 
     const handleChange = (event, newValue) => {
         setTab(newValue);
@@ -42,15 +47,15 @@ const App = () => {
                     </Tabs>
                 </AppBar>
                 {tab === 0 && (
-                    <Box>
+                    <Box key={refreshKey}>
                         <Box className="button-container">
-                            <ArchiveAllButton fetchActivities={fetchActivities}  />
+                            <ArchiveAllButton fetchActivities={fetchActivities} />
                         </Box>
                         <ActivityFeed activities={activities} fetchActivities={fetchActivities} />
                     </Box>
                 )}
                 {tab === 1 && (
-                    <Box>
+                    <Box key={refreshKey}>
                         <Box className="button-container">
                             <UnarchiveAllButton fetchActivities={fetchActivities} />
                         </Box>
